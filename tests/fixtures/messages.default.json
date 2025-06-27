@@ -1,0 +1,8 @@
+{
+  "hello": {
+    "defaultMessage": "world"
+  },
+  "tag": {
+    "defaultMessage": "<i>hello world</i>"
+  }
+}

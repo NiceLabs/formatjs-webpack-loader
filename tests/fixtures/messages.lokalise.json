@@ -1,0 +1,8 @@
+{
+  "hello": {
+    "translation": "world"
+  },
+  "tag": {
+    "translation": "<i>hello world</i>"
+  }
+}

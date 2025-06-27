@@ -1,0 +1,8 @@
+{
+  "hello": {
+    "string": "world"
+  },
+  "tag": {
+    "string": "<i>hello world</i>"
+  }
+}

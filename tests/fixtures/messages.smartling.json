@@ -1,0 +1,9 @@
+{
+  "smartling": null,
+  "hello": {
+    "message": "world"
+  },
+  "tag": {
+    "message": "<i>hello world</i>"
+  }
+}
