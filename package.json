@@ -1,11 +1,12 @@
 {
   "name": "@nice-labs/formatjs-webpack-loader",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Webpack loader for @formatjs/icu-messageformat-parser",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/NiceLabs/formatjs-webpack-loader.git"
   },
+  "license": "MIT",
   "main": "dist/index.js",
   "scripts": {
     "prepublishOnly": "npm start",
