@@ -1,5 +1,7 @@
 /.vscode
+/.github
 /src
 /tests
+/.*rc
 /.*rc.json
 /tsconfig.json
