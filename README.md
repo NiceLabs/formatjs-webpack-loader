@@ -23,6 +23,13 @@ import type { Configuration } from 'webpack'
 
 export default {
   // ...
+  resolve: {
+    // See <https://formatjs.github.io/docs/guides/advanced-usage>
+    alias: {
+      '@formatjs/icu-messageformat-parser': '@formatjs/icu-messageformat-parser/no-parser',
+    },
+  },
+  // ...
   module: {
     rules: [
       // ...
