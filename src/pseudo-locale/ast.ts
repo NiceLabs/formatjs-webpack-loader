@@ -1,5 +1,7 @@
 import { createLiteralElement, isLiteralElement, MessageFormatElement } from '@formatjs/icu-messageformat-parser'
+
 import { Transformer } from './Transformer'
+import { Handler } from './types'
 
 export const ACCENTED_MAP = new Transformer(
   '\u0226\u0181\u0187\u1e12\u1e16\u0191\u0193\u0126\u012a\u0134\u0136\u013f\u1e3e\u0220\u01fe\u01a4\u024a\u0158\u015e\u0166\u016c\u1e7c\u1e86\u1e8a\u1e8e\u1e90',
@@ -13,32 +15,32 @@ export const FLIPPED_MAP = new Transformer(
   false
 )
 
-export function createEnglishTransformer(brackets: string, transformer: Transformer) {
+export function createEnglishTransformer(brackets: string, transformer: Transformer): Handler {
   const [leftBracket, rightBracket] = brackets
+  const handler = transformLiteralElement(transformer.stringify)
   return function* (elements: Iterable<MessageFormatElement>) {
     yield createLiteralElement(leftBracket)
-    yield* modifyLiteralElement(elements, transformer.stringify)
+    yield* handler(elements)
     yield createLiteralElement(rightBracket)
   }
 }
 
-export function* modifyLiteralElement(
-  elements: Iterable<MessageFormatElement>,
-  modifier: (input: string) => string
-): Iterable<MessageFormatElement> {
-  for (const element of elements) {
-    if (isLiteralElement(element)) {
-      yield { ...element, value: modifier(element.value) }
-    } else if ('options' in element) {
-      const entries = Object.entries(element.options).map(([key, option]) => [
-        key,
-        { value: Array.from(modifyLiteralElement(option.value, modifier)) },
-      ])
-      yield { ...element, options: Object.fromEntries(entries) }
-    } else if ('children' in element) {
-      yield { ...element, children: Array.from(modifyLiteralElement(element.children, modifier)) }
-    } else {
-      yield element
+export function transformLiteralElement(modifier: (input: string) => string): Handler {
+  return function* handler(elements): Iterable<MessageFormatElement> {
+    for (const element of elements) {
+      if (isLiteralElement(element)) {
+        yield { ...element, value: modifier(element.value) }
+      } else if ('options' in element) {
+        const entries = Object.entries(element.options).map(([key, option]) => [
+          key,
+          { value: Array.from(handler(option.value)) },
+        ])
+        yield { ...element, options: Object.fromEntries(entries) }
+      } else if ('children' in element) {
+        yield { ...element, children: Array.from(handler(element.children)) }
+      } else {
+        yield element
+      }
     }
   }
 }

@@ -1,4 +1,5 @@
 import type { Schema } from 'schema-utils'
+
 import { getFormats } from './prehandler'
 import { getPseudoLocaleNames } from './pseudo-locale'
 
