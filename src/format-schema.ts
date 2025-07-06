@@ -14,7 +14,7 @@ const defaultSchema: Schema = {
 }
 
 const lokaliasSchema: Schema = {
-  title: 'Lokalise JSON format',
+  title: 'Lokalise (Structured JSON format)',
   link: 'https://docs.lokalise.com/en/articles/3229161-structured-json',
   type: 'object',
   additionalProperties: {
@@ -35,7 +35,7 @@ const flatSchema: Schema = {
 }
 
 const smartlingSchema: Schema = {
-  title: 'Smartling JSON format',
+  title: 'Smartling (Structured JSON format)',
   link: 'https://help.smartling.com/hc/en-us/articles/360008000733-JSON',
   type: 'object',
   anyOf: [
@@ -59,7 +59,7 @@ const smartlingSchema: Schema = {
 }
 
 const transifexSchema: Schema = {
-  title: 'Transifex JSON format',
+  title: 'Transifex (Structured JSON format)',
   link: 'https://help.transifex.com/en/articles/6220899-structured-json',
   type: 'object',
   additionalProperties: {
