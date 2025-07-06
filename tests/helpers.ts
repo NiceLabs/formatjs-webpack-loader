@@ -1,3 +1,5 @@
+import { MessageFormatElement } from '@formatjs/icu-messageformat-parser'
+import { printAST } from '@formatjs/icu-messageformat-parser/printer'
 import { createFsFromVolume, IFs, Volume } from 'memfs'
 import Module from 'node:module'
 import * as path from 'node:path'
@@ -38,8 +40,13 @@ export class WebpackCompiler {
     return this.fs.promises.readFile(path.join(this.basePath, name), 'utf-8') as Promise<string>
   }
 
-  async execute<T>() {
-    return execute<T>(await this.getEntryFile())
+  async execute(): Promise<Record<string, MessageFormatElement[]>> {
+    return execute(await this.getEntryFile())
+  }
+
+  async getMessages(): Promise<Record<string, string>> {
+    const messages = await this.execute()
+    return Object.fromEntries(Object.entries(messages).map(([key, value]) => [key, printAST(value)]))
   }
 }
 

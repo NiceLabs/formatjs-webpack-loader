@@ -51,14 +51,22 @@ describe('Webpack', () => {
   })
 
   describe('Pseudo-Locales', async () => {
-    const variants: readonly string[] = ['xx-LS', 'xx-AC', 'xx-HA', 'en-XA', 'en-XB']
+    const variants = new Map<string, Record<string, string>>([
+      ['xx-LS', { hello: 'worldSSSSSSSSSSSSSSSSSSSSSSSSS', tag: '<i>hello world</i>SSSSSSSSSSSSSSSSSSSSSSSSS' }],
+      ['xx-AC', { hello: 'WORLD', tag: '<i>HELLO WORLD</i>' }],
+      ['xx-HA', { hello: '[javascript]world', tag: '[javascript]<i>hello world</i>' }],
+      ['en-XA', { hello: '[ẇǿǿřŀḓ]', tag: '[<i>ħḗḗŀŀǿǿ ẇǿǿřŀḓ</i>]' }],
+      ['en-XB', { hello: '\u202eʍoɹʅp\u202c', tag: '\u202e<i>ɥǝʅʅo ʍoɹʅp</i>\u202c' }],
+    ])
 
-    for (const pseudoLocale of variants) {
+    for (const [pseudoLocale, expexted] of variants.entries()) {
       it(pseudoLocale, async () => {
         const instance = new WebpackCompiler('messages.default.json', { pseudoLocale })
         const { compilation } = await instance.run()
         expect(compilation.errors).lengthOf(0)
         expect(compilation.warnings).lengthOf(0)
+        const messages = await instance.getMessages()
+        expect(messages).deep.equals(expexted)
       })
     }
 
